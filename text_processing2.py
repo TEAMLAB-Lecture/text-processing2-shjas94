@@ -28,8 +28,18 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
-    return digit_string
+    digit_string = input_string[:]
+    for i in range(len(digit_string)):
+        if not digit_string[i].isdigit():
+            digit_string = digit_string.replace(digit_string[i], ' ')
+    digit_string = digit_string.replace(' ', '')
+    digits = [str(i) for i in range(10)]
+    target = ['zero', 'one', 'two', 'three', 'four',
+              'five', 'six', 'seven', 'eight', 'nine']
+    for i in range(len(digits)):
+        digit_string = digit_string.replace(digits[i], target[i]+' ')
+
+    return digit_string.rstrip()
 
 
 """
@@ -64,5 +74,27 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    underscore_str_copy = underscore_str[:]
+    if "_" not in underscore_str_copy:
+        return underscore_str_copy
+    if underscore_str_copy.count("_") == len(underscore_str_copy):
+        return ''
+    camelcase_str = []
+    flag = False
+    for letter in underscore_str:
+        if letter == '_':
+            flag = True
+            continue
+        if flag and letter != '_':
+            camelcase_str.append(letter.upper())
+            flag = False
+        elif not flag and letter != '_':
+            camelcase_str.append(letter.lower())
+
+    camelcase_str[0] = camelcase_str[0].lower()
+    camelcase_str = ''.join(camelcase_str)
     return camelcase_str
+
+
+print(digits_to_words("Zip Code: 19104"))
+print(to_camel_case("___"))
